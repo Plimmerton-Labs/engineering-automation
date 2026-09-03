@@ -1,0 +1,36 @@
+---
+name: Bug report
+description: Report behaviour that is incorrect, broken, or surprising
+title: "fix: "
+labels: [bug, stage:triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the project. Please avoid sharing secrets, credentials, or private data.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include commands, inputs, or screenshots where useful.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Version, operating system, runtime, browser, device, or other relevant context.

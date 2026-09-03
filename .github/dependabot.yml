@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Enable the relevant package ecosystem for the project after instantiation.
+  # See https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "develop"

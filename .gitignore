@@ -1,0 +1,24 @@
+# Secrets and credentials — never commit these
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependency directories (add project-specific entries below)
+node_modules/

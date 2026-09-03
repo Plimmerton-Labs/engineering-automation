@@ -1,0 +1,55 @@
+# plimmerton-project.yml
+#
+# Local project configuration for the Plimmerton Labs Engineering Playbook workflow.
+# Named directly from WORKFLOW.md's Phase 0 scope: "local project configuration
+# (project type, enabled stages and gates, spend caps, skill overrides)."
+#
+# The Repository Template registration command reads project_type and stages to
+# derive central drift-policy enrollment. The future state-guard, agent-triage,
+# agent-refine, agent-work, and playbook-steward do not read this file yet. Fill in
+# real values before registration; flipping a gate below to true ahead of its
+# reusable workflow existing still has no execution effect. See engineering-
+# playbook's README for current Implementation Status.
+
+# What kind of repository this is. Affects which branch profile applies (see
+# docs/repository-setup.md's Branches section) and which workflow phases are
+# meaningful for this project.
+# One of: product | template | documentation | governance
+project_type: "[product | template | documentation | governance]"
+
+# Which Definition-of-Ready/workflow stages are active for this repository, per
+# WORKFLOW.md's Work Item Lifecycle. Every project starts with the full lifecycle; a
+# repository narrows this only once it has a real reason to (e.g. a documentation
+# repository that never needs stage:in-progress).
+stages:
+  - stage:triage
+  - stage:refining
+  - stage:ready
+  - stage:in-progress
+  - stage:in-review
+
+# Which agent roles (WORKFLOW.md's Agent Roles table) are enabled for this
+# repository. All default to false -- enabling a gate is a Phase 1/2/3 decision made
+# deliberately once the corresponding reusable workflow exists and this project is
+# ready to trust it, not a default to flip on day one.
+gates:
+  state_guard: false
+  agent_triage: false
+  agent_refine: false
+  agent_work: false
+  playbook_steward: false
+
+# Per-run spend caps for agent workflow execution, once agent_work is enabled.
+# WORKFLOW.md names spend caps as one of the honest limits bounding the damage of a
+# guard bypass -- set real numbers before enabling agent_work, not before.
+spend_caps:
+  # Maximum --max-turns per agent-work run.
+  max_turns: null
+  # Maximum job timeout-minutes per agent workflow run.
+  timeout_minutes: null
+
+# Overrides for playbook skills used by this project's agent workflows (e.g.
+# issue-refinement, product-design). Empty by default -- a project only needs an
+# entry here once it has a concrete, documented reason to diverge from the
+# playbook's default skill behaviour.
+skill_overrides: {}

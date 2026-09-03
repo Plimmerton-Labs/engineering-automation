@@ -1,0 +1,47 @@
+[
+  {
+    "name": "stage:triage",
+    "color": "fbca04",
+    "description": "New work item awaiting assessment, dedupe, and clarification."
+  },
+  {
+    "name": "stage:refining",
+    "color": "d4c5f9",
+    "description": "Worth exploring; outcome, acceptance criteria, or design still being shaped."
+  },
+  {
+    "name": "stage:ready",
+    "color": "0e8a16",
+    "description": "Definition of Ready met; eligible for explicit agent:go."
+  },
+  {
+    "name": "stage:in-progress",
+    "color": "1d76db",
+    "description": "Work item has been claimed and is being executed."
+  },
+  {
+    "name": "stage:in-review",
+    "color": "5319e7",
+    "description": "Pull request exists and is awaiting human review."
+  },
+  {
+    "name": "agent:go",
+    "color": "0e8a16",
+    "description": "Explicit human instruction for the worker to start a ready item."
+  },
+  {
+    "name": "agent:blocked",
+    "color": "b60205",
+    "description": "Agent cannot proceed; human input required before further work."
+  },
+  {
+    "name": "needs-design",
+    "color": "c5def5",
+    "description": "Product-significant item needs a linked human-reviewed design artefact before ready."
+  },
+  {
+    "name": "playbook-candidate",
+    "color": "ff7619",
+    "description": "Learning or change may generalise back into the Engineering Playbook."
+  }
+]

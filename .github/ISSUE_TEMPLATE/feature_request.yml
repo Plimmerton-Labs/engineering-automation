@@ -1,0 +1,30 @@
+---
+name: Feature request
+description: Propose a useful improvement or new capability
+title: "feat: "
+labels: [enhancement, stage:triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What user need, operational issue, or product gap does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome
+      description: Describe the behaviour or outcome you want, not just an implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches did you consider?
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks or trade-offs
+      description: Security, privacy, reliability, maintenance, or operational concerns.
