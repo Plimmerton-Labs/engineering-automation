@@ -35,6 +35,26 @@ test("activationReviewPaths also accepts a plain file path array", () => {
   ]);
 });
 
+test("activationReviewPaths flags a rename OUT of a watched directory via previous_filename", () => {
+  const compare = {
+    files: [
+      { status: "renamed", filename: "docs/retired-workflow.yml", previous_filename: ".github/workflows/retired.yml" },
+    ],
+  };
+
+  assert.deepEqual(activationReviewPaths(compare), [".github/workflows/retired.yml"]);
+});
+
+test("activationReviewPaths flags a rename INTO a watched directory via filename, deduping when both match", () => {
+  const compare = {
+    files: [
+      { status: "renamed", filename: "scripts/renamed.mjs", previous_filename: "scripts/original.mjs" },
+    ],
+  };
+
+  assert.deepEqual(activationReviewPaths(compare), ["scripts/renamed.mjs", "scripts/original.mjs"]);
+});
+
 test("classifyPromotionImpact returns lightweight approval when no activation paths are present", () => {
   assert.deepEqual(classifyPromotionImpact({ files: [{ filename: "README.md" }, { filename: "docs/guide.md" }] }), {
     mode: "lightweight-approval",
@@ -51,6 +71,19 @@ test("classifyPromotionImpact returns lightweight approval for an empty compare 
 
 test("classifyPromotionImpact fails loudly when the compare response is malformed", () => {
   assert.throws(() => classifyPromotionImpact({}), /files array/);
+});
+
+test("classifyPromotionImpact returns activation-review for a rename that only matches on previous_filename", () => {
+  const compare = {
+    files: [
+      { status: "renamed", filename: "docs/retired-workflow.yml", previous_filename: ".github/workflows/retired.yml" },
+    ],
+  };
+
+  assert.deepEqual(classifyPromotionImpact(compare), {
+    mode: "activation-review",
+    activationPaths: [".github/workflows/retired.yml"],
+  });
 });
 
 test("renderPromotionImpactSection lists activation paths for activation review", () => {

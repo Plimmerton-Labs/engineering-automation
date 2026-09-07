@@ -11,8 +11,14 @@ const ACTIVATION_REVIEW_PATTERNS = [
   /^package-lock\.json$/,
 ];
 
-function filePath(file) {
-  return typeof file === "string" ? file : file?.filename;
+// A renamed file's compare entry carries both its new `filename` and its
+// `previous_filename`. Checking only the new path misses a rename that moves
+// a file OUT of a watched directory (e.g. retiring a workflow by renaming it
+// into docs/) -- the old path is exactly the thing that needs an activation
+// review, even though the new path alone would look inert.
+function filePaths(file) {
+  if (typeof file === "string") return [file];
+  return [file?.filename, file?.previous_filename].filter((path) => typeof path === "string");
 }
 
 function compareFiles(compareOrFiles) {
@@ -23,8 +29,17 @@ function compareFiles(compareOrFiles) {
 
 export function activationReviewPaths(compareOrFiles) {
   const files = compareFiles(compareOrFiles);
+  const matched = new Set();
 
-  return files.map(filePath).filter((path) => typeof path === "string" && ACTIVATION_REVIEW_PATTERNS.some((pattern) => pattern.test(path)));
+  for (const file of files) {
+    for (const path of filePaths(file)) {
+      if (ACTIVATION_REVIEW_PATTERNS.some((pattern) => pattern.test(path))) {
+        matched.add(path);
+      }
+    }
+  }
+
+  return [...matched];
 }
 
 export function classifyPromotionImpact(compareOrFiles) {

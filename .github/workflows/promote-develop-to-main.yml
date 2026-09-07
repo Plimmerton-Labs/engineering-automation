@@ -88,6 +88,16 @@ jobs:
             created="$(api POST "/repos/${REPO}/pulls" "$body")"
             pr_number="$(jq -r '.number' <<< "$created")"
             pr_url="$(jq -r '.html_url' <<< "$created")"
+          else
+            # An open promotion PR already exists -- refresh its body so a
+            # later push (e.g. one that adds workflow/action/script/package
+            # changes after an earlier lightweight-approval push) doesn't
+            # leave the reviewer looking at a stale impact classification.
+            update_body="$(jq -n \
+              --arg title "Promote develop to main" \
+              --arg body "$body_text" \
+              '{title: $title, body: $body}')"
+            api PATCH "/repos/${REPO}/pulls/${pr_number}" "$update_body" > /dev/null
           fi
 
           echo "Promotion PR: ${pr_url}"
