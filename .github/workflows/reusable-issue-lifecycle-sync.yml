@@ -1,0 +1,29 @@
+name: Reusable Issue Lifecycle Sync
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Sync issue lifecycle state
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+
+      # This action ref must match the immutable release ref used by the caller.
+      # Relocated here from engineering-playbook (see engineering-playbook#152 and
+      # ADR-0002 in this repo): a public caller can only invoke a reusable workflow
+      # hosted in a public repository, and engineering-playbook is private.
+      # engineering-automation is the public distribution boundary; the tag below
+      # is activated only after the reviewed change reaches main, tag protection is
+      # verified, and the release tag is cut from that commit.
+      - uses: Plimmerton-Labs/engineering-automation/.github/actions/issue-lifecycle-sync@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
