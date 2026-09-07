@@ -1,23 +1,26 @@
 #!/usr/bin/env node
-// Entry point for the issue-lifecycle-sync GitHub Action workflow (issue #26).
+// Entry point for the issue-lifecycle-sync GitHub Action workflow (originally
+// engineering-playbook issue #26; the implementation now lives here -- see this
+// repo's ADR-0002 for why).
 //
-// Deliberately a plain Node script invoked directly from the workflow YAML (`node
-// scripts/issue-lifecycle-sync-run.mjs`), not a composite action: unlike
-// preflight-verify, this automation has exactly one call site, so the extra
-// action.yml/input-parsing indirection would add ceremony without adding reuse. It
-// reads the full event payload from $GITHUB_EVENT_PATH (the standard mechanism every
-// Actions runtime provides regardless of language) rather than threading a dozen
-// individual `with:` inputs through the workflow file.
+// Invoked from ../../.github/actions/issue-lifecycle-sync/action.yml, a composite
+// action that exists so other repositories can consume this via a pinned,
+// immutable release tag (`uses: .../issue-lifecycle-sync@vX.Y.Z`) rather than
+// each caller vendoring its own copy of this script. The script itself stays a
+// plain Node entry point rather than parsing `with:` inputs: it reads the full
+// event payload from $GITHUB_EVENT_PATH (the standard mechanism every Actions
+// runtime provides regardless of language) instead of threading a dozen
+// individual inputs through the workflow file.
 //
 // All decision-making lives in scripts/lib/issue-lifecycle-core.mjs and is unit
 // tested there without any live API calls. This file is intentionally thin glue:
 // read the event, call the pure planners, execute what they return via the write
 // client. See engineering-playbook's docs/decisions/0003-issue-lifecycle-sync-design.md
-// for the original design rationale, and this repo's ADR-0002 for why the
-// implementation lives here rather than there (why merge cleanup actively closes the issue, why agent identity comes
-// from the branch name, why this sits outside the preflight-verify trust boundary,
-// why readiness sync and merge cleanup check claim ownership, and why the real
-// workflow triggers on pull_request_target rather than pull_request).
+// for the design rationale (why merge cleanup actively closes the issue, why agent
+// identity comes from the branch name, why this sits outside the preflight-verify
+// trust boundary, why readiness sync and merge cleanup check claim ownership, and
+// why the real workflow triggers on pull_request_target rather than pull_request)
+// -- that rationale is unchanged by the relocation, so it isn't repeated here.
 import { readFileSync } from "node:fs";
 import { createGithubClient } from "./lib/github-client.mjs";
 import { createGithubWriteClient } from "./lib/github-write-client.mjs";
