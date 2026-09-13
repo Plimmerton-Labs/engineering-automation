@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test": "node --test scripts/sync-labels.test.mjs scripts/register-with-playbook.test.mjs"
+    "test": "node --test scripts/sync-labels.test.mjs scripts/register-with-playbook.test.mjs scripts/lib/*.test.mjs"
   },
   "dependencies": {
     "yaml": "2.9.0"
