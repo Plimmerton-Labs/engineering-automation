@@ -13,4 +13,4 @@ permissions:
 
 jobs:
   sync:
-    uses: Plimmerton-Labs/engineering-playbook/.github/workflows/reusable-issue-lifecycle-sync.yml@v1.0.0
+    uses: Plimmerton-Labs/engineering-automation/.github/workflows/reusable-issue-lifecycle-sync.yml@v1.0.0
