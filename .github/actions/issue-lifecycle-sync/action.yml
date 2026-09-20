@@ -1,0 +1,8 @@
+name: Issue lifecycle sync runtime
+description: Runs the Engineering Playbook's issue lifecycle implementation, distributed from this repository's immutable release (see engineering-playbook#152 and ADR-0002).
+runs:
+  using: composite
+  steps:
+    - name: Run lifecycle sync
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/../../../scripts/issue-lifecycle-sync-run.mjs"
